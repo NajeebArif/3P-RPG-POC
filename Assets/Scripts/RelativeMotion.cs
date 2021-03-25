@@ -9,6 +9,7 @@ public class RelativeMotion : MonoBehaviour
     public float moveSpeed = 6f;
 
     private CharacterController _charController;
+    private ControllerColliderHit _contact;
 
     public float jumpSpeed = 15.0f;
     public float gravity = -9.8f;
@@ -37,7 +38,15 @@ public class RelativeMotion : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation,direction, rotSpeed*Time.deltaTime);
         }
 
-        if (_charController.isGrounded) {
+        bool hitGround = false;
+        RaycastHit hit;
+        if (_vertSpeed < 0 &&
+        Physics.Raycast(transform.position, Vector3.down, out hit)) {
+            float check = (_charController.height + _charController.radius) / 1.9f;
+            hitGround = hit.distance <= check;
+        }
+
+        if (hitGround) {
             if (Input.GetButtonDown("Jump")) {
                 _vertSpeed = jumpSpeed;
             } else {
@@ -48,11 +57,22 @@ public class RelativeMotion : MonoBehaviour
             if (_vertSpeed < terminalVelocity) {
                 _vertSpeed = terminalVelocity;
             }
+            if (_charController.isGrounded) {
+                if (Vector3.Dot(movement, _contact.normal) < 0) {
+                    movement = _contact.normal * moveSpeed;
+                } else {
+                    movement += _contact.normal * moveSpeed;
+                }
+            }
         }
         movement.y = _vertSpeed;
         movement *= Time.deltaTime;
         _charController.Move(movement);
     }
-    
+
+    void OnControllerColliderHit(ControllerColliderHit hit) {
+        _contact = hit;
+    }
+
 
 }
