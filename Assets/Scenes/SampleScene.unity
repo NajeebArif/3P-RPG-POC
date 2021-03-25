@@ -515,8 +515,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 57e138c0623b2aa4e9a34e4136af98dd, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 57e138c0623b2aa4e9a34e4136af98dd, type: 3}
       propertyPath: m_Name
       value: player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 57e138c0623b2aa4e9a34e4136af98dd, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 6202a392192fe594ebab93a191afa93c, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 57e138c0623b2aa4e9a34e4136af98dd, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 57e138c0623b2aa4e9a34e4136af98dd, type: 3}
