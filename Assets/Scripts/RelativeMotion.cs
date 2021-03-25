@@ -5,6 +5,8 @@ using UnityEngine;
 public class RelativeMotion : MonoBehaviour
 {
     [SerializeField] private Transform target;
+    public float rotSpeed = 15f;
+
     void Update() {
         Vector3 movement = Vector3.zero;
         float horInput = Input.GetAxis("Horizontal");
@@ -16,7 +18,8 @@ public class RelativeMotion : MonoBehaviour
             target.eulerAngles = new Vector3(0, target.eulerAngles.y, 0);
             movement = target.TransformDirection(movement);
             target.rotation = tmp;
-            transform.rotation = Quaternion.LookRotation(movement);
+            Quaternion direction = Quaternion.LookRotation(movement);
+            transform.rotation = Quaternion.Lerp(transform.rotation,direction, rotSpeed*Time.deltaTime);
         }
     }
     // Start is called before the first frame update
