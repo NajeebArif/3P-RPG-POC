@@ -9,9 +9,16 @@ public class RelativeMotion : MonoBehaviour
     public float moveSpeed = 6f;
 
     private CharacterController _charController;
+
+    public float jumpSpeed = 15.0f;
+    public float gravity = -9.8f;
+    public float terminalVelocity = -10.0f;
+    public float minFall = -1.5f;
+    private float _vertSpeed;
     // Start is called before the first frame update
     void Start() {
         _charController =  GetComponent<CharacterController>();
+        _vertSpeed = minFall;
     }
 
     void Update() {
@@ -29,6 +36,20 @@ public class RelativeMotion : MonoBehaviour
             Quaternion direction = Quaternion.LookRotation(movement);
             transform.rotation = Quaternion.Lerp(transform.rotation,direction, rotSpeed*Time.deltaTime);
         }
+
+        if (_charController.isGrounded) {
+            if (Input.GetButtonDown("Jump")) {
+                _vertSpeed = jumpSpeed;
+            } else {
+                _vertSpeed = minFall;
+            }
+        } else {
+            _vertSpeed += gravity * 5 * Time.deltaTime;
+            if (_vertSpeed < terminalVelocity) {
+                _vertSpeed = terminalVelocity;
+            }
+        }
+        movement.y = _vertSpeed;
         movement *= Time.deltaTime;
         _charController.Move(movement);
     }
